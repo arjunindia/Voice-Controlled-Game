@@ -2,6 +2,8 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 canvas.width = document.querySelector(".container").offsetWidth;
 canvas.height = document.querySelector(".container").offsetWidth / 1.6;
+let block = document.querySelector("code");
+let btn = document.querySelector("button");
 const ball = {
   x: canvas.width / 2,
   y: canvas.height / 2,
@@ -83,3 +85,72 @@ document.addEventListener("keydown", function (e) {
 document.addEventListener("keyup", function (e) {
   ball[e.key] = false;
 });
+
+// Options for the SpeechCommands18w model, the default probabilityThreshold is 0
+const options = { probabilityThreshold: 0.7 };
+let classifier;
+
+btn.addEventListener("click", () => {
+  classifier = ml5.soundClassifier("SpeechCommands18w", options, modelReady);
+  btn.disabled = true;
+  btn.innerText = "Loading...";
+});
+
+function modelReady() {
+  // classify sound
+  btn.innerText = "Loaded";
+  classifier.classify(gotResult);
+}
+
+function gotResult(error, result) {
+  if (error) {
+    console.log(error);
+    return;
+  }
+  // log the result
+  console.log(result[0].label);
+  block.innerText = result[0].label;
+  playgame(result[0].label);
+}
+
+let playgame = (speech) => {
+  if (speech === "up") {
+    ball.reset();
+    ball.ArrowUp = true;
+  }
+  if (speech === "down") {
+    ball.reset();
+    ball.ArrowDown = true;
+  }
+  if (speech === "left") {
+    ball.reset();
+    ball.ArrowLeft = true;
+  }
+  if (speech === "right") {
+    ball.reset();
+    ball.ArrowRight = true;
+  }
+  if (speech === "stop" || speech === "no" || speech === "go") {
+    ball.reset();
+  }
+  if (speech === "one") {
+    ball.reset();
+    ball.ArrowLeft = true;
+    ball.ArrowUp = true;
+  }
+  if (speech === "two") {
+    ball.reset();
+    ball.ArrowRight = true;
+    ball.ArrowUp = true;
+  }
+  if (speech === "three") {
+    ball.reset();
+    ball.ArrowLeft = true;
+    ball.ArrowDown = true;
+  }
+  if (speech === "four") {
+    ball.reset();
+    ball.ArrowRight = true;
+    ball.ArrowDown = true;
+  }
+};
