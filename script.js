@@ -115,42 +115,56 @@ function gotResult(error, result) {
 
 let playgame = (speech) => {
   if (speech === "up") {
-    ball.reset();
-    ball.ArrowUp = true;
+    playgame.reset();
+    // ball.ArrowUp = true;
+    playgame.kddispatcher("ArrowUp");
   }
   if (speech === "down") {
-    ball.reset();
-    ball.ArrowDown = true;
+    playgame.reset();
+    // ball.ArrowDown = true;
+    playgame.kddispatcher("ArrowDown");
   }
   if (speech === "left") {
-    ball.reset();
-    ball.ArrowLeft = true;
+    playgame.reset();
+    // ball.ArrowLeft = true;
+    playgame.kddispatcher("ArrowLeft");
   }
   if (speech === "right") {
-    ball.reset();
-    ball.ArrowRight = true;
+    playgame.reset();
+    // ball.ArrowRight = true;
+    playgame.kddispatcher("ArrowRight");
   }
   if (speech === "stop" || speech === "no" || speech === "go") {
-    ball.reset();
+    playgame.reset();
   }
   if (speech === "one") {
-    ball.reset();
-    ball.ArrowLeft = true;
-    ball.ArrowUp = true;
+    playgame.reset();
+    playgame.kddispatcher("ArrowLeft");
+    playgame.kddispatcher("ArrowUp");
   }
   if (speech === "two") {
-    ball.reset();
-    ball.ArrowRight = true;
-    ball.ArrowUp = true;
+    playgame.reset();
+    playgame.kddispatcher("ArrowRight");
+    playgame.kddispatcher("ArrowUp");
   }
   if (speech === "three") {
-    ball.reset();
-    ball.ArrowLeft = true;
-    ball.ArrowDown = true;
+    playgame.reset();
+    playgame.kddispatcher("ArrowLeft");
+    playgame.kddispatcher("ArrowDown");
   }
   if (speech === "four") {
-    ball.reset();
-    ball.ArrowRight = true;
-    ball.ArrowDown = true;
+    playgame.reset();
+    playgame.kddispatcher("ArrowRight");
+    playgame.kddispatcher("ArrowDown");
   }
+};
+
+playgame.reset = () => {
+  document.dispatchEvent(new KeyboardEvent("keyup", { key: "ArrowUp" }));
+  document.dispatchEvent(new KeyboardEvent("keyup", { key: "ArrowDown" }));
+  document.dispatchEvent(new KeyboardEvent("keyup", { key: "ArrowLeft" }));
+  document.dispatchEvent(new KeyboardEvent("keyup", { key: "ArrowRight" }));
+};
+playgame.kddispatcher = (arrow) => {
+  document.dispatchEvent(new KeyboardEvent("keydown", { key: arrow }));
 };
